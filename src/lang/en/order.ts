@@ -1,0 +1,17 @@
+export default {
+    OrderID: 'Order ID',
+    ThirdPartyOrderID: 'Third-party Order ID',
+    Direction: 'Direction',
+    Quantity: 'Quantity',
+    StrategyName: 'Strategy Name',
+    TradingPair: 'Trading Pair',
+    ClearingFee: 'Clearing Fee',
+    TransactionFee: 'Transaction Fee',
+    Volume: 'Volume',
+    TransactionAmount: 'Transaction Amount',
+    RealizedPnL: 'Realized P&L',
+    Type: 'Type',
+    HighestPrice: 'Highest Price',
+    Leverage: 'Leverage',
+    LowestPrice: 'Lowest Price',
+};

@@ -1,0 +1,123 @@
+<template>
+    <a-modal v-model:open="open" :mask-closable="false" width="fit-content" @ok="handleOk">
+        <template #title>
+            <div class="display-flex flex-align-items-center">
+                <ExclamationCircleOutlined style="color: #faad14; font-size: 16px" />
+                <div class="ml-10">失败提醒</div>
+            </div>
+        </template>
+        <div class="warring-flex">
+            <div v-if="values?.errorLimitValue?.length" class="display-flex flex-align-items-center">
+                当前{{ title }}为
+                <a-tooltip placement="topLeft">
+                    <template #title>{{ typeName(2) }}</template>
+                    <div class="font-semibold">{{ typeName(2) }}</div>
+                </a-tooltip>
+                的用户不存在请填写正确的{{ title }}
+            </div>
+            <div v-if="values?.alreadySetLimitValue?.length" class="display-flex flex-align-items-center">
+                当前{{ title }}为
+                <a-tooltip placement="topLeft">
+                    <template #title>{{ typeName(1) }}</template>
+                    <div class="font-semibold">{{ typeName(1) }}</div>
+                </a-tooltip>
+                的用户已有对应限制。不可重复添加。
+            </div>
+            <div v-if="values?.notSetLimitValue?.length" class="mt-10">
+                <div class="display-flex flex-align-items-center">
+                    <div>{{ title }}为</div>
+                    <a-tooltip placement="topLeft">
+                        <template #title>{{ typeName(3) }}</template>
+                        <div class="font-semibold">{{ typeName(3) }}</div>
+                    </a-tooltip>
+
+                    <div>的用户可继续添加</div>
+                    <SnippetsOutlined class="cursor-pointer" @click="copayUId(typeName(3))" />
+                </div>
+            </div>
+        </div>
+    </a-modal>
+</template>
+
+<script lang="ts" setup>
+import type { AddSwapRateDataRetrun } from '@/api/flashExchange/types.d';
+import { computed, ref } from 'vue';
+import { ExclamationCircleOutlined, SnippetsOutlined } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
+import { copyText } from '@/utils/common';
+import { TypeTagList } from '@/api/tag/types.d';
+
+const open = ref(false);
+const tagList = ref<TypeTagList[]>([]);
+const values = ref<AddSwapRateDataRetrun>({ alreadySetLimitValue: [], errorLimitValue: [], notSetLimitValue: [], result: true });
+const openWarningModal = (item: AddSwapRateDataRetrun, typeValue: number, tags: TypeTagList[]) => {
+    open.value = true;
+    values.value = item;
+    type.value = typeValue;
+    tagList.value = tags;
+};
+const handleOk = () => {
+    open.value = false;
+};
+const type = ref(2);
+const title = computed(() => {
+    return type.value === 2 ? '用户标签' : 'UID';
+});
+const alreadys = computed(() => {
+    return (type: 1 | 2 | 3 = 1) => {
+        const strs = ['alreadySetLimitValue', 'errorLimitValue', 'notSetLimitValue'][type - 1];
+        //@ts-ignore
+        return values.value[strs].join(',');
+    };
+});
+const tagsName = computed(() => {
+    return (type: 1 | 2 | 3 = 1) => {
+        const names: string[] = [];
+        const strs = ['alreadySetLimitValue', 'errorLimitValue', 'notSetLimitValue'][type - 1];
+        tagList.value.forEach((item) => {
+            //@ts-ignore
+            values.value[strs].forEach((item2) => {
+                if (item.id === item2) {
+                    names.push(item.name as string);
+                }
+            });
+        });
+        return names.join(',');
+    };
+});
+const typeName = computed(() => {
+    return (types: 1 | 2 | 3 = 1) => {
+        return type.value !== 2 ? alreadys.value(types) : tagsName.value(types);
+    };
+});
+const copayUId = (id: string) => {
+    const res = copyText(id);
+    if (!res) return;
+    message.success(`复制${title.value}成功`);
+};
+defineExpose({ openWarningModal });
+</script>
+
+<style lang="scss" scoped>
+.warring-flex {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 16px;
+}
+.cursor-pointer {
+    margin-left: 10px;
+    font-size: 20px;
+    color: #165dff;
+}
+.font-semibold {
+    font-weight: 550;
+    font-size: 18px;
+    color: red;
+    margin: 0 8px;
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>

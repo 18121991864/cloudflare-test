@@ -1,0 +1,23 @@
+.fade-enter-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+// .lodin-move,
+.lodin-enter-active,
+.lodin-leave-active {
+    transition: all 0.5s ease;
+}
+
+
+.lodin-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+.lodin-enter-from{
+     opacity: 0;
+    transform: translateY(30px);
+}

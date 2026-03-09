@@ -1,0 +1,17 @@
+export default {
+    OrderID: '订单号',
+    ThirdPartyOrderID: '第三方订单号',
+    Direction: '方向',
+    Quantity: '数量',
+    StrategyName: '策略名',
+    TradingPair: '交易对',
+    ClearingFee: '清算手续费',
+    TransactionFee: '成交手续费',
+    Volume: '成交量',
+    TransactionAmount: '成交额',
+    RealizedPnL: '已实现盈亏',
+    Type: '类型',
+    HighestPrice: '最高成交价',
+    Leverage: '杠杆',
+    LowestPrice: '最低成交价',
+};

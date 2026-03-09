@@ -1,0 +1,17 @@
+export default {
+    OrderID: '注文ID',
+    ThirdPartyOrderID: '外部注文ID',
+    Direction: '売買方向',
+    Quantity: '数量',
+    StrategyName: '戦略名',
+    TradingPair: '取引ペア',
+    ClearingFee: '清算手数料',
+    TransactionFee: '取引手数料',
+    Volume: '取引数量',
+    TransactionAmount: '取引金額',
+    RealizedPnL: '実現損益',
+    Type: 'タイプ',
+    HighestPrice: '最高取引価格',
+    Leverage: 'レバレッジ',
+    LowestPrice: '最低取引価格',
+};
